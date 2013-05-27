@@ -22,15 +22,36 @@ body {
   stroke: steelblue;
   stroke-width: 1.5px;
 }
+#map {
+float:right;
+}
+.mbta {
+  stroke: #000;
+  stroke-width: 1px;
+  fill: none;
+}
+.mbta .GREEN {
+stroke:green;
+}
+.mbta .RED {
+stroke:red;
+}
+.mbta .BLUE {
+stroke:blue;
+}
 
-
+.mbta .ORANGE {
+stroke:orange;
+}
 </style>
 <select id='line'>
 <option value="ashmont">ashmont</option><option value="braintree">braintree</option><option value="blue">blue</option><option value="orange">orange</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option>
 </select>
+<div id="map"></div>
 <div id="graph"></div>
 
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="http://coffeescript.org/extras/coffee-script.js"></script>
 <script type="text/coffeescript" src="script.coffee"></script>
 

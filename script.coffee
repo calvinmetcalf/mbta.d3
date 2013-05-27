@@ -7,6 +7,16 @@ margin =
 width = 960 - margin.left - margin.right
 height = 500 - margin.top - margin.bottom
 
+trains = 
+	ashmont:["RED","A"]
+	braintree:["RED","Q"]
+	blue:["BLUE"]
+	orange:["ORANGE"]
+	b:["GREEN","B"]
+	c:["GREEN","C"]
+	d:["GREEN","D"]
+	e:["GREEN","E"]
+
 x = d3.scale.linear().range([0, width])
 
 y = d3.scale.linear().range([height,0])
@@ -15,8 +25,15 @@ xAxis = d3.svg.axis().scale(x).orient("bottom")
 
 yAxis = d3.svg.axis().scale(y).orient("left")
 
+setMap=()->
+	d3.selectAll(".mbta path").style "visibility",(d)->
+		if trains[trainLine].every( (v)=> @classList.contains(v))
+			"visible"
+		else
+			"hidden"
 
 makeGraph=()->
+	setMap()
 	svg = d3.select("#graph").append("svg")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
@@ -72,3 +89,16 @@ d3.csv "nodes.csv", (data) ->
 	window.data = data
 	makeGraph()
 
+svg2 = d3.select("#map").append("svg").attr("width", 200).attr("height", 200)
+path2 = d3.geo.path().projection(null)
+d3.json 't.json', (topo)->
+	window.topo = topo
+	svg2.append("g").attr("transform","scale(1)translate(1,1)").attr("class", "mbta")
+	.selectAll("path")
+	.data(topojson.feature(topo, topo.objects.t).features)
+	.enter().append("path")
+	.attr("class", (d) ->
+		"#{d.properties.LINE} #{if d.properties.ROUTE then d.properties.ROUTE else ''}"
+	).attr("d", path2)
+	setMap()
+	true
