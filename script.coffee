@@ -27,7 +27,7 @@ yAxis = d3.svg.axis().scale(y).orient("left")
 
 setMap=()->
 	d3.selectAll(".mbta path").style "visibility",(d)->
-		if trains[trainLine].every( (v)=> @classList.contains(v))
+		if trains[trainLine].every((v)=> @classList.contains(v))
 			"visible"
 		else
 			"hidden"
@@ -89,16 +89,16 @@ d3.csv "nodes.csv", (data) ->
 	window.data = data
 	makeGraph()
 
-svg2 = d3.select("#map").append("svg").attr("width", 200).attr("height", 200)
-path2 = d3.geo.path().projection(null)
+map = d3.select("#map").append("svg").attr("width", 200).attr("height", 200)
+mapPath = d3.geo.path().projection(null)
 d3.json 't.json', (topo)->
 	window.topo = topo
-	svg2.append("g").attr("transform","scale(1)translate(1,1)").attr("class", "mbta")
+	map.append("g").attr("transform","scale(1)translate(1,1)").attr("class", "mbta")
 	.selectAll("path")
 	.data(topojson.feature(topo, topo.objects.t).features)
 	.enter().append("path")
 	.attr("class", (d) ->
 		"#{d.properties.LINE} #{if d.properties.ROUTE then d.properties.ROUTE else ''}"
-	).attr("d", path2)
+	).attr("d", mapPath)
 	setMap()
 	true
