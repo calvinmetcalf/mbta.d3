@@ -49,13 +49,15 @@ makeGraph=()->
 		v[trainLine]=parseInt(v[trainLine],10)
 		v.income=parseFloat(v.income,10)
 		v
-	).sort((a,b)->
-		b[trainLine]-a[trainLine]
-	)
-
-	x.domain([1,d3.max(stations, (d)->
-		parseInt d[trainLine], 10
-	)]);
+	).sort((a,b)->b[trainLine]-a[trainLine])
+	if trainLine in ['ashmont','braintree','orange']
+		x.domain([1,d3.max(stations, (d)->
+			parseInt d[trainLine], 10
+		)])
+	else
+		x.domain([d3.max(stations, (d)->
+			parseInt d[trainLine], 10
+		),1])
 	y.domain([0,d3.max(stations, (d)->
 		parseInt d.income, 10
 	)])
